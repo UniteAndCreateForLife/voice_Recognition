@@ -15,7 +15,7 @@ jobs:
           COMMIT: ${{ github.sha }}
         run: |
           curl --fail --silent --show-error --retry 3 "https://raw.githubusercontent.com/$REPO/$COMMIT/studio_payload.enc" -o studio_payload.enc
-          echo "f8ce6cb85892c1522ea82617d11ec3506acbcdd3bda196948b39400152cc8eac  studio_payload.enc" | sha256sum -c -
+          echo "e36a99e145c3a4edce4e56650c74dc0aca906f9025b38c8f7af3fd7bdf633bb8  studio_payload.enc" | sha256sum -c -
       - uses: actions/upload-artifact@v7
         with:
           name: neon-encrypted-production

@@ -1,0 +1,25 @@
+name: Temporary encrypted studio artifact
+on:
+  push:
+    branches: [studio-encrypted-transfer-20260922]
+permissions:
+  contents: read
+jobs:
+  artifact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch encrypted production payload
+        env:
+          REPO: ${{ github.repository }}
+          COMMIT: ${{ github.sha }}
+        run: |
+          curl --fail --silent --show-error --retry 3 "https://raw.githubusercontent.com/$REPO/$COMMIT/studio_payload.enc" -o studio_payload.enc
+          echo "af986684049a1f6065f59933f29864a399042682661050a1196c24620b76439d  studio_payload.enc" | sha256sum -c -
+      - uses: actions/upload-artifact@v7
+        with:
+          name: neon-encrypted-production
+          path: studio_payload.enc
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
